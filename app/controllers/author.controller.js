@@ -46,9 +46,9 @@ module.exports={
     },
 
     updateBooks : function (req,res) {
-        console.log("abc",req.body);
+        console.log("abc",req.body.books);
         Author.findByIdAndUpdate(req.params.id ,
-                                {$push : {books : req.body.books[0]}},
+                                {$push : {books : {$each : req.body.books}}},
                                 {new:true} ,function (err,author) {
             console.log("author",author);
             if(err){
