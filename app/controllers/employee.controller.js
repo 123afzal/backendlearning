@@ -43,38 +43,6 @@ module.exports={
                 }
             })
         }
-        // var requirements = {
-        //     firstName: null,
-        //     lastName: null,
-        //     salary: null,
-        //     gender: null,
-        //     email: null
-        // };
-        // for(var fields in requirements){
-        //     if(!data[fields] || data[fields] == null || data[fields] == '')
-        //         return res.status(400).json({
-        //             code : 400,
-        //             message : "Field " + fields + " is missing"
-        //         })
-        //
-        //     if(fields == "firstName" || fields == "lastName" || fields == "gender"){
-        //         if(typeof data[fields] !== "string"){
-        //             return res.send({
-        //                 code : 404,
-        //                 message : "Type Error"
-        //             })
-        //         }
-        //     }
-        //
-        //     if(fields == "salary"){
-        //         if(typeof data[fields] !== "number"){
-        //             return res.send({
-        //                 code : 404,
-        //                 message : "Type Error Salary is number"
-        //             })
-        //         }
-        //     }
-        //
         //     if(fields == "email"){
         //         var pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         //         if((typeof (data[fields]) != "string") || !pattern.test(data[fields])){
@@ -89,7 +57,7 @@ module.exports={
 
     },
 
-    readE : function (req,res) {
+    read : function (req,res) {
         console.log("Read ki request");
         Employee.find({}, function (err, employees) {
             if(err){
@@ -139,6 +107,5 @@ module.exports={
             })
         }
     }
-
 }
 

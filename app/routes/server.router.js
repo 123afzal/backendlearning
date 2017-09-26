@@ -6,7 +6,10 @@ module.exports = function (app) {
     var index = require('../controllers/server.controller');
     var users = require("../controllers/user.controller");
     var employees = require("../controllers/employee.controller");
-    //Users Route
+    var authors = require("../controllers/author.controller");
+    var books = require("../controllers/book.controller");
+
+    //Users Routes
     app.get('/',index.render);
     app.route("/users")
         .post(users.create)
@@ -20,8 +23,19 @@ module.exports = function (app) {
     // Employee Routes
     app.route("/employee")
         .post(employees.create)
-        .get(employees.readE);
+        .get(employees.read);
     app.route("/employee/login")
-        .post(employees.login)
+        .post(employees.login);
+
+    //Author Routes
+    app.route("/author")
+        .post(authors.create);
+
+    app.route("/author/:id")
+        .put(authors.updateBooks);
+
+    //Book Route
+    app.route("/book")
+        .post(books.create)
 
 }
