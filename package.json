@@ -8,7 +8,8 @@
     "express": "^4.15.4",
     "joi": "^11.0.3",
     "mongodb": "^2.2.31",
-    "mongoose": "^4.11.11"
+    "mongoose": "^4.11.11",
+    "passport": "^0.4.0"
   },
   "devDependencies": {},
   "scripts": {

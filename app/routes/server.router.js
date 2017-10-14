@@ -29,7 +29,8 @@ module.exports = function (app) {
 
     //Author Routes
     app.route("/author")
-        .post(authors.create);
+        .post(authors.create)
+        .get(authors.readAuthor)
 
     app.route("/author/:id")
         .put(authors.updateBooks);

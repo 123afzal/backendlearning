@@ -8,26 +8,8 @@ var mongoose = require("mongoose");
 module.exports={
 
     create : function (req,res) {
-        // var data = req.body;
-        // var requirements = {
-        //     email:null,
-        //     name:null,
-        //     dob:null
-        // };
-        //
-        // for(var k in requirements){
-        //     if(!data[k] || data[k] == null || data[k] ==''){
-        //         return res.status(400).json({
-        //             code:400,
-        //             message: "Please send " +k
-        //         });
-        //     }
-        // }
-
         console.log("req ki body ", req.body)
-
         var user = new User(req.body)
-
         user.save(function (err) {
             if(err){
                 return next(err)
@@ -63,8 +45,6 @@ module.exports={
                 return next(err)
             }
             else{
-                // console.log("ho gaya")
-                // return res.json(user)
                 res.send({
                     data : user,
                     code : 200,

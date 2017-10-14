@@ -62,5 +62,32 @@ module.exports={
                 })
             }
         })
+    },
+
+    readAuthor : function (req,res) {
+        console.log("Reading k andar");
+        Author.find({}, function (err,auhtor) {
+            if(err){
+                return next(err)
+            }
+            else{
+                return res.send({
+                    message : "Success",
+                    code : 200,
+                    data : auhtor,
+                })
+            }
+        }).populate({
+            path : 'books',
+            match : {price : {$gte : 130}},
+            options : {sort : {edition : 1}}
+        }).exec(function (err,book) {
+                if(err){
+                    return handleError(err)
+                }
+                else{
+                    console.log("Books", book)
+                }
+            })
     }
 }
