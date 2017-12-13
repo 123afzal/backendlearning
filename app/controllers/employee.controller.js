@@ -75,13 +75,15 @@ module.exports={
     },
 
     login : function (req,res) {
+        console.log("key",ab.secretKey);
         console.log("Login ki request", req.body);
         var data = req.body;
 
         var validate = helper.validateLogin(data);
 
         if(validate.error){
-            return res.send({
+            return res.status(400).send({
+                code:400,
                 succeess : false,
                 message : validate.error.message
             })
@@ -104,7 +106,7 @@ module.exports={
                             sal:req.body.salary,
                             firstName: req.body.firstName
                         },
-                            ab.secretKey,
+                            "this is dude",
                         {
                             expiresIn:60*60
                         }
