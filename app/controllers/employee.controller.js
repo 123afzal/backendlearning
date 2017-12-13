@@ -6,6 +6,8 @@ var Employee = require("../models/employee.modal")
 var mongoose = require("mongoose");
 var joi = require("joi");
 var helper = require("../helpers");
+var jwt = require("jsonwebtoken");
+var ab = require("../../config/express")
 
 module.exports={
     create : function (req,res) {
@@ -58,7 +60,6 @@ module.exports={
     },
 
     read : function (req,res) {
-        console.log("Read ki request");
         Employee.find({}, function (err, employees) {
             if(err){
                 return next(err)
@@ -98,8 +99,19 @@ module.exports={
                     })
                 }
                 else{
+                    var token = jwt.sign(
+                        {
+                            sal:req.body.salary,
+                            firstName: req.body.firstName
+                        },
+                            ab.secretKey,
+                        {
+                            expiresIn:60*60
+                        }
+                    )
                     res.send({
                         data: emp,
+                        token:token,
                         code : 200,
                         message : "success"
                     })

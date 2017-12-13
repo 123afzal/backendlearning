@@ -6,16 +6,20 @@ var express = require("express");
 var mongoose = require("mongoose");
 var bodyparser = require("body-parser")
 var passport = require("passport")
-
+var morgan = require("morgan")
+module.exports = {
+    secretKey : "thisisdude"
+}
 
 
 module.exports = function () {
     var app = express();
     app.use(bodyparser.urlencoded({ extended: true }));
     app.use(bodyparser.json());
-    // app.use(passport.initialize());
-    // app.usr(passport.session());
     mongoose.connect('mongodb://localhost:27017/moviee');
+    app.use(passport.initialize());
+    app.use(passport.session());
+    app.use(morgan('dev'))
     require("../app/routes/server.router")(app)
     return app
 }

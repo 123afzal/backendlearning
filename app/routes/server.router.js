@@ -8,6 +8,7 @@ module.exports = function (app) {
     var employees = require("../controllers/employee.controller");
     var authors = require("../controllers/author.controller");
     var books = require("../controllers/book.controller");
+    var helper = require('../helpers');
 
     //Users Routes
     app.get('/',index.render);
@@ -23,7 +24,7 @@ module.exports = function (app) {
     // Employee Routes
     app.route("/employee")
         .post(employees.create)
-        .get(employees.read);
+        .get(helper.checkJwt, employees.read);
     app.route("/employee/login")
         .post(employees.login);
 

@@ -23,7 +23,7 @@ module.exports={
     read : function (req, res) {
         console.log("request",req);
         console.log("params",req.params);
-        console.log("request",req.query);
+        console.log("Request",req.query);
         User.find({}, function (err, users) {
             if(err){
                 return next(err)
@@ -40,7 +40,7 @@ module.exports={
     update : function (req,res) {
         console.log("firstName",req.body.firstName)
 
-        User.findOneAndUpdate({firstName: req.body.firstName}, {$set:{lastName:"Khan"}},{new:true},function (err,user) {
+        User.findOneAndUpdate({firstName: req.body.firstName}, {$set:{lastName:"Illyas"}},{new:true},function (err,user) {
             if(err){
                 return next(err)
             }
