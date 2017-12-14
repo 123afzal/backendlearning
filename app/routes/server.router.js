@@ -2,7 +2,7 @@
  * Created by Codenvoi
  * website: http://www.codenvoi.com
  */
-module.exports = function (app) {
+module.exports = function (app,secretKey) {
     var index = require('../controllers/server.controller');
     var users = require("../controllers/user.controller");
     var employees = require("../controllers/employee.controller");
@@ -23,10 +23,10 @@ module.exports = function (app) {
 
     // Employee Routes
     app.route("/employee")
-        .post(employees.create)
+        .post(passToken,employees.create)
         .get(helper.checkJwt, employees.read);
     app.route("/employee/login")
-        .post(employees.login);
+        .post(passToken, employees.login);
 
     //Author Routes
     app.route("/author")
@@ -39,5 +39,9 @@ module.exports = function (app) {
     //Book Route
     app.route("/book")
         .post(books.create)
-
-}
+    function passToken (req,res,next){
+        console.log(secretKey);
+        req.secretKey = secretKey;
+        next();
+    }
+};

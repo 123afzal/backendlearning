@@ -13,6 +13,7 @@ module.exports = {
 
 
 module.exports = function () {
+    var secretKey ="thisisdude";
     var app = express();
     app.use(bodyparser.urlencoded({ extended: true }));
     app.use(bodyparser.json());
@@ -20,7 +21,7 @@ module.exports = function () {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(morgan('dev'))
-    require("../app/routes/server.router")(app)
+    require("../app/routes/server.router")(app,secretKey)
     return app
 }
 

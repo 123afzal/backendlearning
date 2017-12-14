@@ -7,11 +7,11 @@ var mongoose = require("mongoose");
 var joi = require("joi");
 var helper = require("../helpers");
 var jwt = require("jsonwebtoken");
-var ab = require("../../config/express")
 
 module.exports={
     create : function (req,res) {
         console.log("body", req.body);
+        var key = req.secretKey;
 
         var data = req.body;
         var validate = helper.validateSignUp(data)
@@ -75,7 +75,7 @@ module.exports={
     },
 
     login : function (req,res) {
-        console.log("key",ab.secretKey);
+        console.log("key",req.secretKey);
         console.log("Login ki request", req.body);
         var data = req.body;
 
@@ -101,12 +101,13 @@ module.exports={
                     })
                 }
                 else{
+                    console.log("Secret-key", req.secretKey);
                     var token = jwt.sign(
                         {
                             sal:req.body.salary,
                             firstName: req.body.firstName
                         },
-                            "this is dude",
+                           req.secretKey,
                         {
                             expiresIn:60*60
                         }

@@ -17,8 +17,8 @@ var express = require("./config/express")
 
 var app = express()
 
-app.listen(4200)
+var  server = app.listen(4200)
 
 module.exports = app;
 
-console.log("server is up on port")
+console.log("server is up on port",server.address().port)

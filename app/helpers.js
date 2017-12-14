@@ -7,7 +7,7 @@ var jwt = require("jsonwebtoken");
 var ab = require("../config/express");
 
 module.exports = {
-    validateLogin: function (inputs) {
+    validateLogin : function (inputs) {
         console.log("helper main aya login k", inputs);
         var schema = joi.object().keys({
             firstName: joi.string().strict().required().error(new Error("Fisrt Name  is Required. Must be a valid First Name")),
@@ -15,7 +15,7 @@ module.exports = {
         });
         return joi.validate(inputs, schema);
     },
-    validateSignUp: function (inputs) {
+    validateSignUp : function (inputs) {
         console.log("aya signup k helper main");
         var schema = joi.object().keys({
             firstName: joi.string().strict().required().error(new Error("Fisrt Name  is Required. Must be a valid First Name")),
