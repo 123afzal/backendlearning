@@ -93,15 +93,38 @@ module.exports = {
         })
     },
 
+    //this method is first upload an image in cloudinary then it saves that image in user data
     uploadImage: function (req, res) {
+        console.log("params",req.params);
+
         cloudinary.config(config.CLOUDINARY);
+
         cloudinary.uploader.upload('app//controllers//Desert.jpg')
             .then(function (result) {
-                return res.send({
-                    message: "Success",
-                    code: 200,
-                    data: result
-                })
+                console.log("Result", result);
+                Author.findByIdAndUpdate(req.params.id,
+                    {
+                        $set: {
+                            image: {imageUrl: result.url}
+                        }
+                    },
+                    {new: true}, function (err, author) {
+                        console.log("author", author);
+                        if (err) {
+                            return res.send({
+                                message: "User not found",
+                                code: 500,
+                                data: err
+                            })
+                        }
+                        else {
+                            return res.send({
+                                message: "Success",
+                                code: 200,
+                                data: result
+                            })
+                        }
+                    })
             })
             .catch(function (err) {
                 return res.send({

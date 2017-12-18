@@ -31,17 +31,17 @@ module.exports = function (app,secretKey) {
     //Author Routes
     app.route("/author")
         .post(authors.create)
-        .get(authors.readAuthor)
+        .get(authors.readAuthor);
 
-    app.route("/author/uploadImage")
-        .post(authors.uploadImage)
+    app.route("/author/uploadImage/:id")
+        .post(authors.uploadImage);
 
     app.route("/author/:id")
         .put(authors.updateBooks);
 
     //Book Route
     app.route("/book")
-        .post(books.create)
+        .post(books.create);
     function passToken (req,res,next){
         console.log(secretKey);
         req.secretKey = secretKey;
