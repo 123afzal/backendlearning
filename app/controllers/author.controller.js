@@ -2,27 +2,29 @@
  * Created by Codenvoi
  * website: http://www.codenvoi.com
  */
-var Author = require("../models/author.modal")
+var Author = require("../models/author.modal");
 var mongoose = require("mongoose");
 var joi = require("joi");
 var helper = require("../helpers");
+var cloudinary = require('cloudinary');
+var config = require('../../config/cloudinary.config')
 
-module.exports={
-    create : function (req,res) {
+module.exports = {
+    create: function (req, res) {
         console.log("body", req.body);
 
         var data = req.body;
-        var validate = helper.validateSignUp(data)
-        if(validate.error){
+        var validate = helper.validateSignUp(data);
+        if (validate.error) {
             return res.send({
-                message : validate.error.message,
-                success : false
+                message: validate.error.message,
+                success: false
             })
         }
-        else{
+        else {
             var authorId = mongoose.Types.ObjectId();
             var author = new Author({
-                _id : authorId,
+                _id: authorId,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 salary: req.body.salary,
@@ -31,63 +33,83 @@ module.exports={
             });
 
             author.save(function (err, author) {
-                if(err){
+                if (err) {
                     return next(err);
                 }
-                else{
+                else {
                     res.send({
-                        code : 200,
-                        message : "Successfully added new author",
-                        date : author
+                        code: 200,
+                        message: "Successfully added new author",
+                        date: author
                     })
                 }
             })
         }
     },
 
-    updateBooks : function (req,res) {
-        console.log("abc",req.body.books);
-        Author.findByIdAndUpdate(req.params.id ,
-                                {$push : {books : {$each : req.body.books}}},
-                                {new:true} ,function (err,author) {
-            console.log("author",author);
-            if(err){
+    updateBooks: function (req, res) {
+        console.log("abc", req.body.books);
+        Author.findByIdAndUpdate(req.params.id,
+            {$push: {books: {$each: req.body.books}}},
+            {new: true}, function (err, author) {
+                console.log("author", author);
+                if (err) {
+                    return next(err)
+                }
+                else {
+                    return res.send({
+                        message: "Successfully added book to this author",
+                        code: 200,
+                        data: author
+                    })
+                }
+            })
+    },
+
+    readAuthor: function (req, res) {
+        console.log("Reading k andar");
+        Author.find({}, function (err, auhtor) {
+            if (err) {
                 return next(err)
             }
-            else{
+            else {
                 return res.send({
-                    message : "Successfully added book to this author",
-                    code : 200,
-                    data : author
+                    message: "Success",
+                    code: 200,
+                    data: auhtor,
                 })
+            }
+        }).populate({
+            path: 'books',
+            match: {price: {$gte: 130}},
+            options: {sort: {edition: 1}}
+        }).exec(function (err, book) {
+            if (err) {
+                return handleError(err)
+            }
+            else {
+                console.log("Books", book)
             }
         })
     },
 
-    readAuthor : function (req,res) {
-        console.log("Reading k andar");
-        Author.find({}, function (err,auhtor) {
-            if(err){
-                return next(err)
-            }
-            else{
+    uploadImage: function (req, res) {
+        cloudinary.config(config.CLOUDINARY);
+        cloudinary.uploader.upload('app//controllers//Desert.jpg')
+            .then(function (result) {
                 return res.send({
-                    message : "Success",
-                    code : 200,
-                    data : auhtor,
+                    message: "Success",
+                    code: 200,
+                    data: result
                 })
-            }
-        }).populate({
-            path : 'books',
-            match : {price : {$gte : 130}},
-            options : {sort : {edition : 1}}
-        }).exec(function (err,book) {
-                if(err){
-                    return handleError(err)
-                }
-                else{
-                    console.log("Books", book)
-                }
+            })
+            .catch(function (err) {
+                return res.send({
+                    message: "Faiure",
+                    code: 500,
+                    data: err
+                })
             })
     }
+
 }

@@ -5,6 +5,7 @@
   "main": "main.js",
   "dependencies": {
     "body-parser": "^1.18.1",
+    "cloudinary": "^1.9.1",
     "express": "^4.15.4",
     "joi": "^11.0.3",
     "jsonwebtoken": "^8.1.0",

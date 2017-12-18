@@ -16,7 +16,10 @@ var authorSchema = new Schema({
         type :Date,
         default :Date.now
     },
-    books : [{type : Schema.Types.ObjectId, ref : 'books'}]
+    books : [{type : Schema.Types.ObjectId, ref : 'books'}],
+    image :{
+        imageUrl : {type : String}
+    }
 });
 
 var Author = mongoose.model('authors', authorSchema);

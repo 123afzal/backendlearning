@@ -33,6 +33,9 @@ module.exports = function (app,secretKey) {
         .post(authors.create)
         .get(authors.readAuthor)
 
+    app.route("/author/uploadImage")
+        .post(authors.uploadImage)
+
     app.route("/author/:id")
         .put(authors.updateBooks);
 
