@@ -5,6 +5,7 @@
 var joi = require("joi");
 var jwt = require("jsonwebtoken");
 var ab = require("../config/express");
+var CONSTANTS = require('./constants')
 
 module.exports = {
     validateLogin : function (inputs) {
@@ -27,12 +28,13 @@ module.exports = {
         return joi.validate(inputs, schema);
     },
     checkJwt : function(req, res, next){
-        var token = req.body.token ||  req.query.token || req.headers['x-access-token'];
+        console.log("Request",CONSTANTS.CONSTANT.SECRETKEY);
+        var token = req.body.token ||  req.query.token || req.headers.token;
         console.log("token",token);
         if(!token || token == null || token == ''){
             return res.status(400).send({code:400,message:"UnAuthorized User", success:false});
         }
-        if(jwt.verify(token, ab.secretKey)){
+        if(jwt.verify(token, "thisisdude")){
             next();
         }else{
             return res.status(400).send({code:400,message:"UnAuthorized User", success:false});
